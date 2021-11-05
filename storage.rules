@@ -8,5 +8,12 @@ service firebase.storage {
                    && request.resource.contentType.matches('image/.*')
                    && imageId.matches(request.auth.uid+'.*');
     }
+    match /profilePics/{userId}/{imageId} {
+      allow read: if true;
+      // Only allow uploads of any image file that's less than 5MB
+      allow write: if request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*')
+                   && userId.matches(request.auth.uid);
+    }
   }
 }
