@@ -5,7 +5,8 @@ service firebase.storage {
       allow read: if true;
       // Only allow uploads of any image file that's less than 20MB
       allow write: if request.resource.size < 20 * 1024 * 1024
-                   && request.resource.contentType.matches('image/.*')
+      // Removing the content type check because it's not working on android
+      //           && request.resource.contentType.matches('image/.*');
                    && userId.matches(request.auth.uid+'.*');
     }
     match /activityImages/{imageId} {
